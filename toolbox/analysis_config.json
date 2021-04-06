@@ -1,0 +1,38 @@
+{
+  "files": [
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/executionHistory/executionHistory.bin",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/executionHistory/executionHistory.lock",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/fileChanges/last-build.bin",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/fileContent/fileContent.lock",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/fileHashes/fileHashes.bin",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/fileHashes/fileHashes.lock",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/gc.properties",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/javaCompile/javaCompile.lock",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/6.3/javaCompile/taskHistory.bin",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/buildOutputCleanup/buildOutputCleanup.lock",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/buildOutputCleanup/cache.properties",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/buildOutputCleanup/outputFiles.bin",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/checksums/checksums.lock",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.gradle/vcs-1/gc.properties",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/.touch",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/build/classes/java/main/com/example/Main.class",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/build.gradle",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/gradle/wrapper/gradle-wrapper.jar",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/gradle/wrapper/gradle-wrapper.properties",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/gradle.properties",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/gradlew",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/settings.gradle",
+    "/home/raghav/marvin-java/src/test/resources/testGradle/src/main/java/com/example/Main.java"
+  ],
+  "exclude_patterns": null,
+  "exclude_files": [],
+  "test_files": [],
+  "test_patterns": null,
+  "analyzer_meta": {
+    "name": "java",
+    "enabled": true,
+    "meta": {
+      "java_version": 11
+    }
+  }
+}
