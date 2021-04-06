@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.subModule.SubMain;
 import com.example.subMultiModule1.LibClass;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,17 +39,21 @@ public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("test");
 
-        File a = new File("/tmp/abc");
+        File a = new File("/tmp/abc"); // JAVA-S0406
+        @NonNull
         BufferedWriter b = null;
 
-        try {
-            b = java.nio.file.Files.newBufferedWriter(a.toPath());
-            b.write(34);
-        } catch (Throwable ignored) {
-            ignored.printStackTrace();
-        }
+        if (a != new File("/")) // JAVA-S0280
+            try {
+                b = java.nio.file.Files.newBufferedWriter(a.toPath()); // JAVA-S0268
+                b.write(34);
+            } catch (Throwable ignored) {
+                ignored.printStackTrace();
+                b.write(3); // JAVA-S0256
+            }
 
-        b.write(4);
+
+        b.write(4); // JAVA-S0256
 
         LibClass lc = new LibClass();
 
@@ -67,12 +72,12 @@ public class Main {
     /**
      * void method with no args
      */
-    private void method1() {
+    private void method1() { // JAVA-S0324
         System.out.println("output");
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o) { // JAVA-S0110
         return this.hashCode() != o.hashCode();
     }
 }

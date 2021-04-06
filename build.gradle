@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'org.checkerframework' version '0.5.19'
 }
 
 group 'org.example'
