@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SubMainTest {
 
     @Test
-    void doTHing() {
+    void doTHing() throws InterruptedException {
         SubMain sm = new SubMain();
 
         assertNotEquals("", sm.doTHing());

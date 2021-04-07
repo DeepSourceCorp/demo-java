@@ -2,7 +2,7 @@ package com.example;
 
 import com.example.subModule.SubMain;
 import com.example.subMultiModule1.LibClass;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,33 +40,30 @@ public class Main {
         System.out.println("test");
 
         File a = new File("/tmp/abc"); // JAVA-S0406
-        @NonNull
         BufferedWriter b = null;
 
-        if (a != new File("/")) // JAVA-S0280
-            try {
-                b = java.nio.file.Files.newBufferedWriter(a.toPath()); // JAVA-S0268
-                b.write(34);
-            } catch (Throwable ignored) {
-                ignored.printStackTrace();
-                b.write(3); // JAVA-S0256
-            }
+        try {
+            b = java.nio.file.Files.newBufferedWriter(a.toPath()); // JAVA-S0268
+            b.write(34);
+        } catch (Throwable ignored) {
+            ignored.printStackTrace();
+        }
 
-
-        b.write(4); // JAVA-S0256
+        b.close();
 
         LibClass lc = new LibClass();
 
-        lc.setLock(a);
+        lc.setLock(b.getClass().getResource("c").equals(3));
         try {
             System.out.println(lc.strProp + lc.getParallelString());
-        } catch (Throwable t) {}
+        } catch (Throwable t) { }
 
         SubMain sm = new SubMain();
+
     }
 
     public static int abc(int a, int b, int c) {
-        return a + b + c;
+        return a + b + c / 0;
     }
 
     /**

@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'jacoco'
-    id 'org.checkerframework' version '0.5.19'
 }
 
 group 'org.example'
@@ -28,6 +27,7 @@ dependencies {
     implementation 'io.github.davidkgp:json-parse:1.0.3'
     implementation project(':multiModule1:subMultiModule1')
     implementation project(':subModule1')
+    implementation('com.github.spotbugs:spotbugs-annotations:4.2.2')
 }
 
 tasks.jacocoTestReport {
