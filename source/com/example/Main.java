@@ -1,35 +1,24 @@
 package com.example;
 
-import com.example.subModule.SubMain;
-import com.example.subMultiModule1.LibClass;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import com.example.data.ConfigData;
+import com.example.api.APIQueryHandler;
 
-import java.io.BufferedWriter;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.CharBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * lorem ipsum sit dor tass
  */
 public class Main {
-
-    /**
-     * documented field.
-     */
-    public Object memberObj = new Object();
-
-    public Integer memberInt = 4;
-
-    /**
-     * public constructor with 3 args
-     *
-     * @param a int parameter
-     * @param b char parameter
-     * @param c boxed float parameter
-     */
-    public Main(int a, char b, Float c) {
-        System.out.printf("%d %c %f", a, b, c);
-    }
 
     /**
      * Documented function
@@ -39,42 +28,54 @@ public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("test");
 
-        File a = new File("/tmp/abc"); // JAVA-S0406
-        BufferedWriter b = null;
+        File configLocation = new File(args[1]); // JAVA-S0406
+        BufferedReader configReader = null;
+        CharBuffer configBuf = CharBuffer.wrap(new String());
 
         try {
-            b = java.nio.file.Files.newBufferedWriter(a.toPath()); // JAVA-S0268
-            b.write(34);
+            configReader = java.nio.file.Files.newBufferedReader(configLocation.toPath()); // JAVA-S0268
+            configReader.read(configBuf);
         } catch (Throwable ignored) {
             ignored.printStackTrace();
         }
 
-        b.close();
+        configReader.close();
+        String config = configBuf.toString();
+        ArrayList<ConfigData> configs = new ArrayList<>();
 
-        LibClass lc = new LibClass();
+        for (String line : config.lines().collect(Collectors.toList())) {
+            String[] data = line.split(" ");
+            URL url = null;
+            try {
+                url = new URL(data[0]);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
 
-        lc.setLock(b.getClass().getResource("c").equals(3));
+            List<String> paramStrings = Arrays.asList(data).subList(1, data.length);
+            HashMap<String, String> params = new HashMap<>();
+
+            for (String i : paramStrings) {
+                String[] vals = i.split(":");
+                params.put(vals[0], vals[1]);
+            }
+
+            var configElem = new ConfigData();
+            configElem.setUrl(url);
+            configElem.setParams(params);
+            configs.add(configElem);
+        }
+
+        APIQueryHandler queryHandler = new APIQueryHandler(configs);
+
         try {
-            System.out.println(lc.strProp + lc.getParallelString());
-        } catch (Throwable t) { }
+            queryHandler.getDataInParallel();
+        } catch (InterruptedException e) { }
 
-        SubMain sm = new SubMain();
+        List<String> results = queryHandler.getOutputs();
+        for (String i : results) {
+            System.out.println(i);
+        }
 
-    }
-
-    public static int abc(int a, int b, int c) {
-        return a + b + c / 0;
-    }
-
-    /**
-     * void method with no args
-     */
-    private void method1() { // JAVA-S0324
-        System.out.println("output");
-    }
-
-    @Override
-    public boolean equals(Object o) { // JAVA-S0110
-        return this.hashCode() != o.hashCode();
     }
 }
