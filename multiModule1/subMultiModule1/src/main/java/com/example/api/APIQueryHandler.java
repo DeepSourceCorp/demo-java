@@ -3,11 +3,12 @@ package com.example.api;
 import com.example.data.ConfigData;
 
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class APIQueryHandler {
-    private List<ConfigData> configs;
+    private ConfigData[] configs;
     private List<String> outputs;
     private static Lock LOCK = new ReentrantLock(true);
 
@@ -17,11 +18,11 @@ public class APIQueryHandler {
         return LOCK;
     }
 
-    public List<ConfigData> getConfigs() {
+    public ConfigData[] getConfigs() {
         return configs;
     }
 
-    public synchronized void setConfigs(List<ConfigData> configs) {
+    public synchronized void setConfigs(ConfigData[] configs) {
         this.configs = configs;
     }
 
@@ -29,16 +30,16 @@ public class APIQueryHandler {
         return outputs;
     }
 
-    public APIQueryHandler(List<ConfigData> configs) {
+    public APIQueryHandler(ConfigData[] configs) {
         this.configs = configs;
     }
 
     /**
      * Shortcut for calling wait
      */
-    private void waitForLock() {
+    private void waitForLock(Condition c) {
         try {
-            LOCK.wait();
+            c.wait();
         } catch (Throwable e) {}
     }
 
@@ -49,22 +50,22 @@ public class APIQueryHandler {
      */
     public void getDataInParallel() throws InterruptedException {
 
-        Thread[] ts = new Thread[configs.size()];
+        Thread[] ts = new Thread[configs.length];
 
-        for (int i = 0; i < configs.size(); ++i) {
+        // Locks make use of condition variables for synchronization.
+        Condition prevDone = LOCK.newCondition();
+        for (int i = 0; i < configs.length; ++i) {
             int finalI = i;
             ts[i] = new Thread(
                     () -> {
-                        ConfigData data = configs.get(finalI);
+                        ConfigData data = configs[finalI];
                         UrlRequest req = new UrlRequest(data.getUrl(), data.getParams());
-
                         String res = req.doRequest();
-                        waitForLock();
                         synchronized (LOCK) {
-                            waitForLock(); // Wait for access to the list...
+                            waitForLock(prevDone); // Wait for access to the list...
                             requestCounter++;
                             outputs.add(res);
-                            LOCK.notify(); // Notify the next thread ...
+                            prevDone.signal(); // Notify the next thread ...
                         }
                     }
 

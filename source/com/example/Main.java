@@ -9,16 +9,15 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.CharBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * lorem ipsum sit dor tass
  */
 public class Main {
+
+    static ArrayList<ConfigData> configs;
 
     /**
      * Documented function
@@ -66,7 +65,7 @@ public class Main {
             configs.add(configElem);
         }
 
-        APIQueryHandler queryHandler = new APIQueryHandler(configs);
+        APIQueryHandler queryHandler = new APIQueryHandler(configs.toArray(new ConfigData[0]));
 
         try {
             queryHandler.getDataInParallel();
