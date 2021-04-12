@@ -1,12 +1,10 @@
 package com.example.data;
 
-import javax.annotation.concurrent.Immutable;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-@Immutable
 public class ConfigData implements Iterator<String> {
 
     private int pos = 0;

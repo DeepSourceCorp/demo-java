@@ -3,5 +3,7 @@
 **/.classpath
 **/.project
 toolbox/
-bin/
-
+**/bin/
+**/*.bin
+**/*.class
+.idea/

@@ -3,19 +3,17 @@ package com.example.api;
 import com.example.data.ConfigData;
 
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class APIQueryHandler {
     private List<ConfigData> configs;
-    private List<String> outputs = null;
-    private static Object LOCK = new Object();
+    private List<String> outputs;
+    private static Lock LOCK = new ReentrantLock(true);
 
     private volatile int requestCounter = 0;
 
-    public synchronized void setLock(Object o) {
-        LOCK = o;
-    }
-
-    public Object getLock() {
+    public Lock getLock() {
         return LOCK;
     }
 
@@ -23,7 +21,7 @@ public class APIQueryHandler {
         return configs;
     }
 
-    public void setConfigs(List<ConfigData> configs) {
+    public synchronized void setConfigs(List<ConfigData> configs) {
         this.configs = configs;
     }
 
@@ -50,7 +48,6 @@ public class APIQueryHandler {
      * @throws InterruptedException
      */
     public void getDataInParallel() throws InterruptedException {
-        setLock(LOCK);
 
         Thread[] ts = new Thread[configs.size()];
 
@@ -62,8 +59,9 @@ public class APIQueryHandler {
                         UrlRequest req = new UrlRequest(data.getUrl(), data.getParams());
 
                         String res = req.doRequest();
+                        waitForLock();
                         synchronized (LOCK) {
-                            this.waitForLock(); // Wait for access to the list...
+                            waitForLock(); // Wait for access to the list...
                             requestCounter++;
                             outputs.add(res);
                             LOCK.notify(); // Notify the next thread ...
