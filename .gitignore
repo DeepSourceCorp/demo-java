@@ -1,0 +1,9 @@
+**/build/
+*.prefs
+**/.classpath
+**/.project
+toolbox/
+**/bin/
+**/*.bin
+**/*.class
+.idea/
