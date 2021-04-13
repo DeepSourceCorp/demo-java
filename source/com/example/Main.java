@@ -13,16 +13,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * lorem ipsum sit dor tass
+ * Main class of the project
  */
 public class Main {
 
     static ArrayList<ConfigData> configs;
 
     /**
-     * Documented function
+     * The main entrypoint.
      *
-     * @param args adb, ddhdhfwdfe
+     * @param args the arguments to pass to the program
      */
     public static void main(String[] args) throws IOException {
         System.out.println("test");
@@ -69,7 +69,9 @@ public class Main {
 
         try {
             queryHandler.getDataInParallel();
-        } catch (InterruptedException e) { }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         List<String> results = queryHandler.getOutputs();
         for (String i : results) {

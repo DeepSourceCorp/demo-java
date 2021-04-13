@@ -18,6 +18,10 @@ public class UrlRequest {
         params = params;
     }
 
+    /**
+     * Performs a network request and returns the data sent in the response.
+     * @return
+     */
     public String doRequest() {
         try {
             conn = url.openConnection();
@@ -31,7 +35,6 @@ public class UrlRequest {
 
         try {
             conn.connect();
-
             byte[] bytes = conn.getInputStream().readAllBytes();
             return new String(bytes, StandardCharsets.UTF_8);
         } catch (IOException e) {

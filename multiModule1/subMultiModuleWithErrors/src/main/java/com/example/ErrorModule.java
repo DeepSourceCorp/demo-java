@@ -2,6 +2,9 @@ package com.example;
 
 import java.util.Random;
 
+/**
+ * this module contains errors on purpose to illustrate
+ */
 public class ErrorModule {
     public String sayHello() {
         String a = null;
