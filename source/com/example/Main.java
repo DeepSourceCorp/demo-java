@@ -3,6 +3,7 @@ package com.example;
 import com.example.data.ConfigData;
 import com.example.api.APIQueryHandler;
 
+import java.math.BigDecimal;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,16 @@ public class Main {
 
     static ArrayList<ConfigData> configs;
 
+    double thing = 2.4352;
+
+    static Main getThis() {
+        return new Main();
+    }
+
+    double getThing() {
+        return thing;
+    }
+
     /**
      * The main entrypoint.
      *
@@ -30,7 +41,17 @@ public class Main {
         File configLocation = new File(args[1]); // JAVA-S0406
         BufferedReader configReader = null;
         CharBuffer configBuf = CharBuffer.wrap(new String());
+        HashMap<String, BigDecimal> hm = new HashMap<>();
 
+
+
+        String e5 = "sffsdf".toString();
+        String st = new String("sjfld");
+        Integer a = new Integer(3);
+        BigDecimal b = new BigDecimal(44.32);
+        hm.put("f", new BigDecimal(3.1));
+        hm.put("f", new BigDecimal(ConfigData.ds()));
+        hm.put("a", new BigDecimal(getThis().getThing()));
         try {
             configReader = java.nio.file.Files.newBufferedReader(configLocation.toPath()); // JAVA-S0268
             configReader.read(configBuf);

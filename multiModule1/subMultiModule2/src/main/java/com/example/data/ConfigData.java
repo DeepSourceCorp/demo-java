@@ -7,6 +7,12 @@ import java.util.Map;
 
 public class ConfigData implements Iterator<String> {
 
+    static double d = 32.123;
+
+    public static Double ds() {
+        return d;
+    }
+
     private int pos = 0;
     private URL url;
     private Map<String, String> params;
