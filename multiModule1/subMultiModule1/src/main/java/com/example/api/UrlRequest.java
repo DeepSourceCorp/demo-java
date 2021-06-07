@@ -8,39 +8,39 @@ import java.util.Map;
 
 public class UrlRequest {
 
-    private URL url;
-    private Map<String, String> params;
+  private URL url;
+  private Map<String, String> params;
 
-    private URLConnection conn;
+  private URLConnection conn;
 
-    public UrlRequest(URL url, Map<String, String> params) {
-        url = url;
-        params = params;
+  public UrlRequest(URL url, Map<String, String> params) {
+    url = url;
+    params = params;
+  }
+
+  /**
+   * Performs a network request and returns the data sent in the response.
+   *
+   * @return
+   */
+  public String doRequest() {
+    try {
+      conn = url.openConnection();
+    } catch (IOException e) {
+      return e.getMessage();
     }
 
-    /**
-     * Performs a network request and returns the data sent in the response.
-     * @return
-     */
-    public String doRequest() {
-        try {
-            conn = url.openConnection();
-        } catch (IOException e) {
-            return e.getMessage();
-        }
-
-        for (Map.Entry<String, String> e : params.entrySet()) {
-            conn.addRequestProperty(e.getKey(), e.getValue());
-        }
-
-        try {
-            conn.connect();
-            byte[] bytes = conn.getInputStream().readAllBytes();
-            return new String(bytes, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return e.getMessage();
-        }
+    for (Map.Entry<String, String> e : params.entrySet()) {
+      conn.addRequestProperty(e.getKey(), e.getValue());
     }
 
+    try {
+      conn.connect();
+      byte[] bytes = conn.getInputStream().readAllBytes();
+      return new String(bytes, StandardCharsets.UTF_8);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return e.getMessage();
+    }
+  }
 }
