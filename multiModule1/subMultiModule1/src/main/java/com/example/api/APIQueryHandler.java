@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/** 
+/**
  * Performs a network call in parallel using the provided config options.
  */
 public class APIQueryHandler {
