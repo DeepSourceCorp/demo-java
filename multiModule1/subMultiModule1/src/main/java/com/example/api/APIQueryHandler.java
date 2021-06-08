@@ -1,16 +1,19 @@
 package com.example.api;
 
 import com.example.data.ConfigData;
+
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/** 
+/**
  * Performs a network call in parallel using the provided config options.
  */
 public class APIQueryHandler {
-  private ConfigData[] configs;
+  private Map<URL, ConfigData> configs;
   private List<String> outputs;
   private static Lock LOCK = new ReentrantLock(true);
 
@@ -21,10 +24,10 @@ public class APIQueryHandler {
   }
 
   public ConfigData[] getConfigs() {
-    return configs;
+    return configs.values().toArray(new ConfigData[configs.size()]);
   }
 
-  public synchronized void setConfigs(ConfigData[] configs) {
+  public synchronized void setConfigs(Map<URL, ConfigData> configs) {
     this.configs = configs;
   }
 
@@ -38,7 +41,7 @@ public class APIQueryHandler {
     return c;
   }
 
-  public APIQueryHandler(ConfigData[] configs) {
+  public APIQueryHandler(Map<URL, ConfigData> configs) {
     this.configs = configs;
   }
 
@@ -58,18 +61,19 @@ public class APIQueryHandler {
    */
   public void getDataInParallel() throws InterruptedException {
 
-    Thread[] ts = new Thread[configs.length];
+    Thread[] ts = new Thread[configs.size()];
 
     // Locks make use of condition variables for synchronization.
     Condition prevDone = LOCK.newCondition();
-    for (int i = 0; i < configs.length; ++i) {
+    Map.Entry<URL, ConfigData>[] entries = configs.entrySet().toArray(new Map.Entry[0]);
+    for (int i = 0; i < entries.length; i++) {
       int finalI = i;
       Lock l = new ReentrantLock();
       ts[i] =
           new Thread(
               () -> {
-                ConfigData data = configs[finalI];
-                UrlRequest req = new UrlRequest(data.getUrl(), data.getParams());
+                Map.Entry<URL, ConfigData> data = entries[finalI];
+                UrlRequest req = new UrlRequest(data.getKey(), data.getValue().getParams());
                 String res = req.doRequest();
                 synchronized (LOCK) {
                   try {
