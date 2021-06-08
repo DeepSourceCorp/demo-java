@@ -18,6 +18,7 @@ public class Server extends HttpServlet {
         // For older browsers?
         c.setSecure(false);
         resp.addCookie(c);
+        resp.setHeader("Access-Control-Allow-Origin", "*");
 
         Boolean b = Boolean.parseBoolean(req.getParameter("winCondition"));
         int ticketNumber = Integer.parseInt(req.getParameter("ticket"));
