@@ -10,16 +10,7 @@ public class ConfigData implements Iterator<String> {
     return 3.14;
   }
     private int pos = 0;
-    private URL url;
     private Map<String, String> params;
-
-  public URL getUrl() {
-    return url;
-  }
-
-  public void setUrl(URL url) {
-    this.url = url;
-  }
 
   public Map<String, String> getParams() {
     return params;
@@ -45,7 +36,6 @@ public class ConfigData implements Iterator<String> {
   @Override
   public ConfigData clone() {
     ConfigData data = new ConfigData();
-    data.setUrl(url);
     data.setParams(params);
 
     return data;

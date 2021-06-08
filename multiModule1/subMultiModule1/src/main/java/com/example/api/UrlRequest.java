@@ -8,6 +8,18 @@ import java.util.Map;
 
 public class UrlRequest {
 
+  public static class A {
+
+    public static String props = null;
+    static {
+      try {
+        props = new String(UrlRequest.class.getResourceAsStream("a.properties").readAllBytes());
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      System.out.println(props);
+    }
+  }
   private URL url;
   private Map<String, String> params;
 

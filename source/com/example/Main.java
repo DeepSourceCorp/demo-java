@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.api.APIQueryHandler;
+import com.example.api.UrlRequest;
 import com.example.data.ConfigData;
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,7 +35,7 @@ public class Main {
   public static void main(String[] args) throws IOException {
     System.out.println("test");
 
-    File configLocation = new File(args[1]); // JAVA-S0406
+    File configLocation = new File(args[1]); // JAVA-E0406
     BufferedReader configReader = null;
     CharBuffer configBuf = CharBuffer.wrap(new String());
     HashMap<String, BigDecimal> hm = new HashMap<>();
@@ -59,7 +60,7 @@ public class Main {
 
     configReader.close();
     String config = configBuf.toString();
-    ArrayList<ConfigData> configs = new ArrayList<>();
+    HashMap<URL, ConfigData> configs = new HashMap<>();
 
     for (String line : config.lines().collect(Collectors.toList())) {
       String[] data = line.split(" ");
@@ -79,12 +80,12 @@ public class Main {
       }
 
       var configElem = new ConfigData();
-      configElem.setUrl(url);
+
       configElem.setParams(params);
-      configs.add(configElem);
+      configs.put(url, configElem);
     }
 
-    APIQueryHandler queryHandler = new APIQueryHandler(configs.toArray(new ConfigData[0]));
+    APIQueryHandler queryHandler = new APIQueryHandler(configs);
 
     try {
       queryHandler.getDataInParallel();
