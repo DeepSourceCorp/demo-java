@@ -1,16 +1,20 @@
 package com.example;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 import com.example.api.APIQueryHandler;
 import com.example.api.UrlRequest;
+
 import com.example.data.ConfigData;
+
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.CharBuffer;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /** Main class of the project */
 public class Main {
@@ -21,7 +25,7 @@ public class Main {
 
   static Main getThis() {
     return new Main();
-  }
+   }
 
   double getThing() {
     return thing;
@@ -49,20 +53,22 @@ public class Main {
     hm.put("a", new BigDecimal(getThis().getThing()));
 
     synchronized (a) {
+      
+      
     }
 
     try {
       configReader = java.nio.file.Files.newBufferedReader(configLocation.toPath()); // JAVA-S0268
       configReader.read(configBuf);
     } catch (Throwable ignored) {
-      ignored.printStackTrace();
+       ignored.printStackTrace();
     }
 
     configReader.close();
     String config = configBuf.toString();
     HashMap<URL, ConfigData> configs = new HashMap<>();
 
-    for (String line : config.lines().collect(Collectors.toList())) {
+     for (String line : config.lines().collect(Collectors.toList())) {
       String[] data = line.split(" ");
       URL url = null;
       try {
@@ -75,13 +81,13 @@ public class Main {
       HashMap<String, String> params = new HashMap<>();
 
       for (String i : paramStrings) {
-        String[] vals = i.split(":");
+         String[] vals = i.split(":");
         params.put(vals[0], vals[1]);
       }
 
       var configElem = new ConfigData();
 
-      configElem.setParams(params);
+       configElem.setParams(params);
       configs.put(url, configElem);
     }
 
@@ -89,13 +95,11 @@ public class Main {
 
     try {
       queryHandler.getDataInParallel();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+   } catch (InterruptedException e) {
+     e.printStackTrace();
+   }
 
     List<String> results = queryHandler.getOutputs();
-    for (String i : results) {
-      System.out.println(i);
-    }
+    for (String i : results)System.out.println(i);
   }
 }
