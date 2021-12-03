@@ -1,7 +1,6 @@
 package com.example;
 
 import com.example.api.APIQueryHandler;
-import com.example.api.UrlRequest;
 import com.example.data.ConfigData;
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,13 +25,12 @@ public class Main {
   double getThing() {
     return thing;
   }
-  
- private  String doSomething() {
-    for(int i=3; i < 10;i++){
-      System.out.println("abc" +
-                         i);
-   }
-  } 
+
+  private String doSomething() {
+    for (int i = 3; i < 10; i++) {
+      System.out.println("abc" + i);
+    }
+  }
 
   /**
    * The main entrypoint.
