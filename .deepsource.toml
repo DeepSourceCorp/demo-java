@@ -14,3 +14,7 @@ enabled = true
 [[analyzers]]
 name = "secrets"
 enabled = true
+
+[[transformers]]
+name = "google-java-format"
+enabled = true
