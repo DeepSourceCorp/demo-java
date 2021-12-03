@@ -26,6 +26,13 @@ public class Main {
   double getThing() {
     return thing;
   }
+  
+ private  String doSomething() {
+    for(int i=3; i < 10;i++){
+      System.out.println("abc" +
+                         i);
+   }
+  } 
 
   /**
    * The main entrypoint.
