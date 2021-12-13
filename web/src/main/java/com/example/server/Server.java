@@ -26,7 +26,7 @@ public class Server extends HttpServlet {
     resp.addCookie(c);
     resp.setHeader("Access-Control-Allow-Origin", "*");
 
-    logger.info("user session id: " + req.getSession.getId());
+    logger.info("user session id: " + req.getSession().getId());
 
     Boolean b = Boolean.parseBoolean(req.getParameter("winCondition"));
     int ticketNumber = Integer.parseInt(req.getParameter("ticket"));
