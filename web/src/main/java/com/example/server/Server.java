@@ -7,10 +7,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class Server extends HttpServlet {
 
     static final String DB_URL = "jdbc:mysql://localhost/users";
     static Connection conn;
+    
+    private static final Logger logger = LogManager.getLogger(Server.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -20,6 +25,8 @@ public class Server extends HttpServlet {
         resp.addCookie(c);
         resp.setHeader("Access-Control-Allow-Origin", "*");
 
+        logger.info("user session id: " + req.getSession.getId());
+        
         Boolean b = Boolean.parseBoolean(req.getParameter("winCondition"));
         int ticketNumber = Integer.parseInt(req.getParameter("ticket"));
         try {
