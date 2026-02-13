@@ -1,7 +1,6 @@
 package com.example.api;
 
 import com.example.data.ConfigData;
-
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -9,9 +8,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * Performs a network call in parallel using the provided config options.
- */
+/** Performs a network call in parallel using the provided config options. */
 public class APIQueryHandler {
   private Map<URL, ConfigData> configs;
   private List<String> outputs;
