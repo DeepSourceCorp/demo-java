@@ -18,3 +18,5 @@ enabled = true
 [[transformers]]
 name = "google-java-format"
 enabled = true
+name = "ruff"
+enabled = true
